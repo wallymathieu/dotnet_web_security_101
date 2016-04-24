@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>
+  SQL injection
+</h1>
+<h2>Documentation</h2>
+
+<h2>
+  About SQL Injection
+</h2>
+<h3>
+  Short explanation:
+</h3>
+<p>
+  Not sanitazing your user input when using it in SQL.
+</p>
+<h3>Example:</h3>
+<p>
+  <pre>
+string cmdText = string.Format(@@"SELECT
+      [ProductName]
+      ,[Description]
+  FROM [dbo].[tblProduct] WHERE [ProductName] LIKE '{0}'", value);</pre>
+</p>
+<h3>
+  What can be stolen?
+</h3>
+<ul>
+  <li>Any information in your database.</li>
+  <li>
+    If password information is stored in plain text (or is unsalted), then a scripter can acquire any
+    login.
+  </li>
+</ul>
+<h3>
+  What other things might a malicious scripter do?
+</h3>
+<ul>
+  <li>
+    Anything that you can do in ordinary SQL. For instance: Insert/Update/Delete of
+    products.
+  </li>
+  <li>
+    If password information is stored in plain text (or is unsalted): Anything that any of your users
+    can do in your system.
+  </li>
+</ul>
+<h2>Trying it out</h2>
+<ul>
+  <li>
+    @Html.ActionLink("Failing to handle error + yealding information", "HandleError", "SQLInjection")
+  </li>
+  <li>
+    @Html.ActionLink("List tables", "ListDbTables", "SQLInjection")
+  </li>
+  <li>
+    @Html.ActionLink("List companies", "ListCompanies", "SQLInjection")
+  </li>
+  <li>
+    @Html.ActionLink("insert company", "InsertCompany", "SQLInjection")
+  </li>
+  <li>
+    @Html.ActionLink("delete company", "DeleteCompany", "SQLInjection")
+  </li>
+
+</ul>

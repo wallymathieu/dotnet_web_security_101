@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>
+  Cross-Site Request Forgery (CSRF)
+</h1>
+<div>
+  <h2>
+    Documentation
+  </h2>
+  <h3>
+    Short explanation
+  </h3>
+  <p>
+    Gettings users to click/load specifically crafted urls to execute commands (updating/inserting/deleting
+    information) using the visiting users credentials.
+  </p>
+  <ul>
+    <li>Getting people to click on a link in a page or in a mail.</li>
+    <li>Using image tag in a page to execute a get to a specifically crafted url.</li>
+    <li>Using script on a page to execute a cross domain post .</li>
+  </ul>
+  <h3>
+    Example
+  </h3>
+@{ 
+var value = "<img src='http://bank.example/withdraw?account=bob&amount=1000000&for=mallory'>";
+}
+<pre>@value</pre>
+  <h3>
+    Links:
+  </h3>
+  <ul>
+    <li>
+      <a href="http://blog.codeville.net/2008/09/01/prevent-cross-site-request-forgery-csrf-using-aspnet-mvcs-antiforgerytoken-helper/">
+        codeville : how to protect yourself in mvc
+      </a>
+    </li>
+    <li>
+      <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">wikipedia </a>
+    </li>
+    <li>
+      <a href="http://developer.apple.com/internet/webcontent/iframe.html">
+        Remote scripting
+        with IFrame
+      </a>
+    </li>
+    <li>
+      <a href="http://bindzus.wordpress.com/2007/12/24/adding-dynamic-contents-to-iframes/">
+        Adding Dynamic Contents to IFrames
+      </a>
+    </li>
+  </ul>
+</div>
+<div>
+  <h2>
+    Trying it out
+  </h2>
+  <ul>
+    <li>
+      @Html.ActionLink("Update with AntiForgeryToken", "UpdateWithAntiForgeryToken", "CrossSiteForgery")
+    </li>
+    <li>
+      <a href="http://localhost:8091/index.htm">Cross site forgery site</a>
+    </li>
+  </ul>
+</div>

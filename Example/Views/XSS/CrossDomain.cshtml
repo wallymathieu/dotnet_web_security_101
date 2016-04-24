@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>
+  CrossDomain communication with jsonp
+</h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <h2>Content to send</h2>
+    <p>
+      @Html.TextBox("text", "value1", new { id = "text" })
+    </p>
+    <p>
+      <input id="send_information_to_remote_service" type="button" value="Send to remote service" />
+    </p>
+  </div>
+  <div class="col-md-4">
+    <h2>Response message</h2>
+    <pre id="response"></pre>
+  </div>
+</div>
+@section scripts{
+  <script type="text/javascript">
+    $(function () {
+
+      $("#send_information_to_remote_service").click(function () {
+        $.getJSON("http://localhost:8091/api/Script/?text=" + $("#text").val() + "&callback=?", function (data) {
+          $("#response").text(data.message)
+        });
+      });
+
+    });
+
+  </script>
+
+}

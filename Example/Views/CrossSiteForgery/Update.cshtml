@@ -1,0 +1,84 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+  Update
+</h2>
+    <%= Html.ValidationSummary("Edit was unsuccessful. Please correct the errors and try again.") %>
+<h3>
+  With token
+</h3>
+@using (Html.BeginForm())
+{
+    <p>
+      @Html.AntiForgeryToken()
+      @Html.TextBox("text")
+    </p>
+    <p>
+      <input type="submit" value="Submit text" />
+    </p>
+}
+<h3>
+  Without token
+</h3>
+@using (Html.BeginForm())
+{
+    <p>
+      @Html.TextBox("text")
+    </p>
+    <p>
+      <input type="submit" value="Submit text without token" />
+    </p>
+}
+<h3>
+  Ajax
+</h3>
+<div id="ajaxtoken" style="display: none;">
+  @Html.AntiForgeryToken()
+</div>
+<div id="ajaxform">
+
+  <script type="text/javascript">
+    $(function () {
+      $("#ajaxwithtoken").click(function () {
+        var data = $('#ajaxform').serializeArray();
+        var token = $('#ajaxtoken input[name=__RequestVerificationToken]').val();
+        data.push({ name: '__RequestVerificationToken', value: token });
+
+        $.post('/CrossSiteForgery/UpdateWithAntiForgeryTokenAjax', data, function (data) {
+          $("#ajaxresult").val(data);
+        });
+      });
+
+      $("#ajaxwithouttoken").click(function () {
+        var data = $('#ajaxform').serializeArray();
+        $.post('/CrossSiteForgery/UpdateWithAntiForgeryTokenAjax', data, function (data) {
+          $("#ajaxresult").val(data);
+        });
+      });
+
+      /*$("#ajaxnoform").click(function() {
+        $.post('/CrossSiteForgery/UpdateAjax', { ajaxtext: "testtext" }, function(data) {
+          alert(data);
+        });
+      });*/
+    });
+  </script>
+
+  <p>
+    @Html.TextBox("ajaxtext", "", new { id = "ajaxtext" })
+  </p>
+  <p>
+    <input id="ajaxwithtoken" type="button" value="Submit text with token ajax" />
+  </p>
+  <p>
+    <input id="ajaxwithouttoken" type="button" value="Submit text without token ajax" />
+  </p>
+  <p>
+    <label for="ajaxresult">
+      Ajax result:
+    </label>
+    @Html.TextArea("ajaxresult", "", new { id = "ajaxresult" })
+  </p>
+</div>
+@Html.Encode(ViewData["message"] ?? string.Empty)

@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>
+  A vulnerable search page
+</h2>
+@using (Html.BeginForm())
+{
+    @Html.TextArea("value", (string)ViewData["value"], 20, 100, new { })
+    <input type="submit" value="search" />
+}
+<h2>
+  Index
+</h2>
+<table>
+  <tr>
+    <th>
+      ProductName
+    </th>
+    <th>
+      Description
+    </th>
+  </tr>
+  @foreach (var item in Model)
+  {
+      <tr>
+        <td>
+          @Html.Encode(item.ProductName)
+        </td>
+        <td>
+          @Html.Encode(item.Description)
+        </td>
+      </tr>
+  }
+</table>

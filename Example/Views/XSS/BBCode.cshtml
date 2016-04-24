@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container body-content">
+  <h1>
+    BBCode
+  </h1>
+  <p>
+    In the early days of forums, you needed some way of protecting yourself against html injection attacks while still allowing users
+    some basic html content.
+  </p>
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Input</h2>
+      @using (Html.BeginForm())
+      {
+          <p>
+            @Html.TextArea("value.Value", ViewData["value"] as string, 10, 100, new Dictionary<string, object>())
+          </p>
+          <p>
+            <input type="submit" value="Submit" />
+          </p>
+      }
+    </div>
+    <div class="col-md-4">
+      <h2>Rendered</h2>
+      @Html.Raw(Shared.BbCode.Render.ReplaceBBCode(Html.Encode(ViewData["value"] ?? string.Empty)))
+    </div>
+  </div>
+  <div>
+
+    <h3>NORMAL TEXT FORMATTING:</h3>
+
+<pre>
+Test bold text [b]bold[/b]
+Test italic text [i]italic[/i]
+Test underlined text [u]underline[/u]
+Test strikeout text [s]strikeout[/s]
+Test superscript text - X3 [sup]superscript[/sup]
+</pre>
+
+    <h3>FONT COLORS:</h3>
+
+<pre>
+Test blue text [color=blue]blue[/color]
+Test red text [color=red]red[/color]
+Test #eeff00 text [color=#eeff00]some other[/color]
+</pre>
+    <h3> FONT SIZES:</h3>
+
+<pre>
+7px text [size=6]size 6[/size]
+12px text [size=12]size 12[/size]
+24px text [size=24]size 24[/size]
+</pre>
+    <h3>FONT FACES:</h3>
+
+<pre>
+Test Arial typeface text [font=arial]font arial[/font]
+Test Arial typeface text [font=Arial Black]font black[/font]
+Test Courier typeface text [font=Courier]font courier[/font]
+Test Courier New typeface text [font=Courier New][/font]
+Test Impact typeface text [font=Impact][/font]
+Test Times New Roman typeface text [font=Times New Roman][/font]
+Test Verdana typeface text [font=verdana][/font]
+</pre>
+    <h3>TEXT ALIGNMENT:</h3>
+<pre>
+[left]left[/left]
+[right]right[/right]
+[center]center[/center]
+[justify]justify[/justify]
+</pre>
+  </div>
+</div>

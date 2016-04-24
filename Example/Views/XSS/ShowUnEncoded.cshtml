@@ -1,0 +1,25 @@
+﻿<div id="infodiv">
+  info
+</div>
+<h2>
+  Show product with html-encode
+</h2>
+<fieldset>
+  <legend>Encoded</legend>
+  <p>
+    ProductID:
+    @Html.Raw(Model.ProductID)
+  </p>
+  <p>
+    ProductNumber:
+    @Html.Raw(Model.ProductNumber)
+  </p>
+  <p>
+    ProductName:
+    @Html.Raw(Model.ProductName)
+  </p>
+  <p>
+    Description:
+    @Html.Raw(Model.Description)
+  </p>
+</fieldset>

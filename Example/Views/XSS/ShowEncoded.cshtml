@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="infodiv">
+  info
+</div>
+<h2>
+  Show product with html-encode
+</h2>
+<fieldset>
+  <legend>Encoded</legend>
+  <p>
+    ProductID:
+    @Model.ProductID
+  </p>
+  <p>
+    ProductNumber:
+    @Model.ProductNumber
+  </p>
+  <p>
+    ProductName:
+    @Model.ProductName
+  </p>
+  <p>
+    Description:
+    @Model.Description
+  </p>
+</fieldset>

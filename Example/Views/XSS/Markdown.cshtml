@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container body-content">
+  <h1>
+    Markdown
+  </h1>
+  <p>
+    Markdown has become really popular due to it's use on popular programming sites such as stackoverflow and github.
+  </p>
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Input</h2>
+      @using (Html.BeginForm())
+      {
+          <p>
+            @Html.TextArea("value.Value", ViewData["value"] as string, 10, 100, new Dictionary<string, object>())
+          </p>
+          <p>
+            <input type="submit" value="Submit" />
+          </p>
+      }
+    </div>
+    <div class="col-md-4">
+      <h2>Rendered</h2>
+      @Html.Raw(new MarkdownSharp.Markdown().Transform(Html.Encode(ViewData["value"] ?? string.Empty)))
+    </div>
+  </div>
+</div>
