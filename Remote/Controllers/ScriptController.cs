@@ -2,9 +2,11 @@
 using System.Text;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Remote.Controllers
 {
+    [EnableCors(origins: "http://localhost:8090", headers: "*", methods: "*")]
     public class ScriptController : ApiController
     {
         public HttpResponseMessage Get(string text, string callback)
@@ -15,6 +17,17 @@ namespace Remote.Controllers
                 Content = new StringContent(callback + "({message:'" + res + "'});",
                               Encoding.UTF8,
                               "application/javascript")
+            };
+        }
+
+        public HttpResponseMessage Post([FromBody]string text)
+        {
+            var res = string.Format("{0} submitted from {1}", text, HttpContext.Current.Request.UrlReferrer);
+            return new HttpResponseMessage()
+            {
+                Content = new StringContent("{\"message\":\"" + res + "\"}",
+                              Encoding.UTF8,
+                              "application/json")
             };
         }
     }
