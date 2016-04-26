@@ -6,7 +6,6 @@ using System.Web.Http.Cors;
 
 namespace Remote.Controllers
 {
-    [EnableCors(origins: "http://localhost:8090", headers: "*", methods: "*")]
     public class ScriptController : ApiController
     {
         public HttpResponseMessage Get(string text, string callback)
@@ -20,6 +19,7 @@ namespace Remote.Controllers
             };
         }
 
+        [EnableCors(origins: "http://localhost:8090", headers: "*", methods: "*")]
         public HttpResponseMessage Post([FromBody]string text)
         {
             var res = string.Format("{0} submitted from {1}", text, HttpContext.Current.Request.UrlReferrer);
