@@ -1,7 +1,10 @@
 ﻿using Shared;
+using Shared.ViewState;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web.UI;
 
 namespace Example.Viewstate
 {
@@ -39,5 +42,13 @@ namespace Example.Viewstate
                 .Tap(l => l.Add(Text.Text))
                 .ToArray();
         }
+       
+        //protected override PageStatePersister PageStatePersister
+        //{
+        //    get
+        //    {
+        //        return new PersistentSessionPageStatePersister(this.Page);
+        //    }
+        //}
     }
 }

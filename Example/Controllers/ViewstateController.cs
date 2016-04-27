@@ -1,10 +1,6 @@
-﻿using Shared;
-using System.IO;
-using System.Text;
-using System.Web;
+﻿using Shared.ViewState;
 using System.Web.Mvc;
 using System.Web.UI;
-using System.Xml;
 
 namespace Example.Controllers
 {
@@ -49,9 +45,18 @@ namespace Example.Controllers
                 string data = ViewStateHelper.GetRawBase64Data(value);
                 ViewData["rawBase64"] = data;
             }
+
+            try
+            {
+                var f = new ObjectStateFormatter();
+                ViewData["objectState"] = Newtonsoft.Json.JsonConvert.SerializeObject(f.Deserialize(value));
+            }
+            catch (System.Exception ex)
+            {
+                ViewData["objectState"] = ex.Message;
+            }
             return View();
+
         }
-
-
     }
 }

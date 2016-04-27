@@ -6,9 +6,9 @@ using System.Text;
 using System.Web.UI;
 using System.Xml;
 
-namespace Shared
+namespace Shared.ViewState
 {
-    public class ViewState
+    public class ViewStateInXml
     {
         public readonly XmlDocument ControlstateDom;
         public readonly XmlDocument Dom;
@@ -23,7 +23,7 @@ namespace Shared
         public string DomString() { return ToString(Dom); }
         public string ControlstateDomString() { return ToString(ControlstateDom); }
 
-        public ViewState(XmlDocument dom, XmlDocument controlstateDom)
+        public ViewStateInXml(XmlDocument dom, XmlDocument controlstateDom)
         {
             this.Dom = dom;
             this.ControlstateDom = controlstateDom;
@@ -109,14 +109,14 @@ namespace Shared
             }
         }
 
-        public static ViewState BuildXml(object tree)
+        public static ViewStateInXml BuildXml(object tree)
         {
             var dom = new XmlDocument();
             var controlstateDom = new XmlDocument();
             dom.AppendChild(dom.CreateElement("viewstate"));
             controlstateDom.AppendChild(controlstateDom.CreateElement("controlstate"));
             BuildElement(dom, dom.DocumentElement, tree, ref controlstateDom);
-            return new ViewState(dom, controlstateDom);
+            return new ViewStateInXml(dom, controlstateDom);
         }
 
         private static string GetShortTypename(object obj)

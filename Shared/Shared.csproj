@@ -45,6 +45,7 @@
     <Compile Include="BbCode\AttributeType.cs" />
     <Compile Include="BbCode\Render.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="ViewState\PersistentSessionPageStatePersister.cs" />
     <Compile Include="ViewState\ViewStateXmlBuilder.cs" />
     <Compile Include="ViewState\ViewStateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

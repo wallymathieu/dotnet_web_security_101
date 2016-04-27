@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Shared
+namespace Shared.ViewState
 {
     public class ViewStateHelper
     {
