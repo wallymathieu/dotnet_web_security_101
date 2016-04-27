@@ -1,11 +1,38 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Specialized;
+using System.IO;
+using System.Text;
 using System.Web.UI;
 using System.Xml;
 
 namespace Shared
 {
+    public class ViewState
+    {
+        public readonly XmlDocument ControlstateDom;
+        public readonly XmlDocument Dom;
+
+        private string ToString(XmlDocument doc)
+        {
+            var sb = new StringBuilder();
+            doc.Save(new StringWriter(sb));
+            return sb.ToString();
+        }
+
+        public string DomString() { return ToString(Dom); }
+        public string ControlstateDomString() { return ToString(ControlstateDom); }
+
+        public ViewState(XmlDocument dom, XmlDocument controlstateDom)
+        {
+            this.Dom = dom;
+            this.ControlstateDom = controlstateDom;
+        }
+    }
+
+    /// <summary>
+    /// look at http://aspalliance.com/articleViewer.aspx?aId=135&pId=
+    /// </summary>
     public class ViewStateXmlBuilder
     {
         // Methods
@@ -82,14 +109,14 @@ namespace Shared
             }
         }
 
-        public static XmlDocument BuildXml(object tree, out XmlDocument controlstateDom)
+        public static ViewState BuildXml(object tree)
         {
-            XmlDocument dom = new XmlDocument();
-            controlstateDom = new XmlDocument();
+            var dom = new XmlDocument();
+            var controlstateDom = new XmlDocument();
             dom.AppendChild(dom.CreateElement("viewstate"));
             controlstateDom.AppendChild(controlstateDom.CreateElement("controlstate"));
             BuildElement(dom, dom.DocumentElement, tree, ref controlstateDom);
-            return dom;
+            return new ViewState(dom, controlstateDom);
         }
 
         private static string GetShortTypename(object obj)

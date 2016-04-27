@@ -1,6 +1,7 @@
 ﻿using Shared;
 using System.IO;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Xml;
@@ -15,28 +16,34 @@ namespace Example.Controllers
         }
         public ActionResult Decode()
         {
-            ViewData["value"] = "yRHLG6ndakgLf6bHf3faRizTy7GxdlWaP1g7Ih6nikUizj4j+OU1ww3S/TjZfeN26UqSuVmrbJgRaUN88/izFR0ZaBfoqjmQ0G7ncso+lQk8sNs8uiEeCBcM1F+UEdlxvJ6unK2cCaQE6nfPi+fR3OLna7jMmupHEaDgmzhKkscaDzDkD1IM+gREVfCuD1Xrf+FT5SKzSfHqdOvPI+R2eWPDuBi/uiT2SwN6uJSudTLoYcFcmZnbGt6bHyVdUODCtxNDOcdkTtwn9iXL417k3pP7EmORwGXhaeFQu1WQKcj1VymANdj32ePxkPksboBhrfd9M/yZowpq27M+iE9WKQ==";
+            ViewData["value"] = "/wEPZA8FCjE1MDkyOTMyNjgPFgIeEFRleHRzSW5WaWV3c3RhdGUVBAZpdGVtIDEGaXRlbSAyBml0ZW0gMwZpdGVtIDQWAgIDD2QWAgIBDxYCHgtfIUl0ZW1Db3VudAIEFggCAQ9kFgJmDxUBBml0ZW0gMWQCAg9kFgJmDxUBBml0ZW0gMmQCAw9kFgJmDxUBBml0ZW0gM2QCBA9kFgJmDxUBBml0ZW0gNGQ=";
             return View();
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Decode(string value)
         {
-            //XmlDocument controlstateDom;
-            //XmlDocument dom = ViewStateXmlBuilder.BuildXml(new LosFormatter().Deserialize(value), out controlstateDom);
-            //var los = new LosFormatter().Deserialize(value);
-            //ViewData["rawLos"] = los;
-            //{
-            //    var sb = new StringBuilder();
-            //    //dom.Save(new StringWriter(sb));
-            //    ViewData["rawXml"] = sb.ToString();
-            //}
-            ////
-            //{
-            //    var sb = new StringBuilder();
-            //  //  controlstateDom.Save(new StringWriter(sb));
-            //    ViewData["rawXmlControlState"] = sb.ToString();
-            //}
+            try
+            {
+                ViewData["rawLos"] = Newtonsoft.Json.JsonConvert.SerializeObject(new LosFormatter().Deserialize(value));
+            }
+            catch (System.Exception ex)
+            {
+                ViewData["rawLos"] = ex.Message;
+            }
+            try
+            {
+                var res = ViewStateXmlBuilder.BuildXml(new LosFormatter().Deserialize(value));
+
+                ViewData["rawXml"] = res.DomString();
+
+                ViewData["rawXmlControlState"] = res.ControlstateDomString();
+            }
+            catch (System.Exception ex)
+            {
+                ViewData["rawXml"] = ex.Message;
+                ViewData["rawXmlControlState"] = ex.Message;
+            }
             //Raw Base64
             {
                 string data = ViewStateHelper.GetRawBase64Data(value);
