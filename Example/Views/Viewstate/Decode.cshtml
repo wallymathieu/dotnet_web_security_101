@@ -6,24 +6,32 @@
 </h2>
 @using (Html.BeginForm())
 {
-    @Html.TextArea("value")
+    @Html.TextArea("value", new { @cols = 80, @rows = 10 })
     <input type="submit" value="submit" />
 }
 <h3>
   Raw Base64
 </h3>
-<p>
+<pre>
   @ViewData["rawBase64"]
-</p>
-<h3>
-  Raw XmlControlState
-</h3>
-<p>
-  @ViewData["rawXmlControlState"] 
-</p>
-<h3>
-  Raw Xml
-</h3>
-<p>
-  @ViewData["rawXml"] 
-</p>
+</pre>
+@*
+    <h3>
+    Raw los
+  </h3>
+  <pre>
+    @ViewData["rawLos"]
+  </pre>
+
+    <h3>
+      Raw XmlControlState
+    </h3>
+    <p>
+      @ViewData["rawXmlControlState"]
+    </p>
+    <h3>
+      Raw Xml
+    </h3>
+    <p>
+      @ViewData["rawXml"]
+    </p>*@
