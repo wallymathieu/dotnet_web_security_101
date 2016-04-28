@@ -42,13 +42,18 @@ namespace Example.Viewstate
                 .Tap(l => l.Add(Text.Text))
                 .ToArray();
         }
-       
-        //protected override PageStatePersister PageStatePersister
-        //{
-        //    get
-        //    {
-        //        return new PersistentSessionPageStatePersister(this.Page);
-        //    }
-        //}
+
+        private string File() { return string.Format(@"C:\tmp\viewstate_{0}.txt", this.Page.GetType().FullName); }
+        protected override void SavePageStateToPersistenceMedium(object state)
+        {
+            LosFormatter format = new LosFormatter();
+            using (var file = new FileStream(File(), FileMode.Create, FileAccess.Write, FileShare.Read))
+            using (var writer = new StreamWriter(file))
+            {
+                format.Serialize(writer, state);
+                writer.Flush();
+            }
+            base.SavePageStateToPersistenceMedium(state);
+        }
     }
 }

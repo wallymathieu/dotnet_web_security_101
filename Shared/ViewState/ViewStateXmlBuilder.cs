@@ -36,7 +36,7 @@ namespace Shared.ViewState
     public class ViewStateXmlBuilder
     {
         // Methods
-        private static void BuildElement(XmlDocument dom, XmlElement elem, object treeNode, ref XmlDocument controlstateDom)
+        private static void BuildElement(XmlDocument dom, XmlElement elem, object treeNode, XmlDocument controlstateDom)
         {
             if (treeNode != null)
             {
@@ -46,16 +46,16 @@ namespace Shared.ViewState
                 {
                     element = dom.CreateElement(GetShortTypename(treeNode));
                     elem.AppendChild(element);
-                    BuildElement(dom, element, ((Triplet)treeNode).First, ref controlstateDom);
-                    BuildElement(dom, element, ((Triplet)treeNode).Second, ref controlstateDom);
-                    BuildElement(dom, element, ((Triplet)treeNode).Third, ref controlstateDom);
+                    BuildElement(dom, element, ((Triplet)treeNode).First, controlstateDom);
+                    BuildElement(dom, element, ((Triplet)treeNode).Second, controlstateDom);
+                    BuildElement(dom, element, ((Triplet)treeNode).Third, controlstateDom);
                 }
                 else if (type == typeof(Pair))
                 {
                     element = dom.CreateElement(GetShortTypename(treeNode));
                     elem.AppendChild(element);
-                    BuildElement(dom, element, ((Pair)treeNode).First, ref controlstateDom);
-                    BuildElement(dom, element, ((Pair)treeNode).Second, ref controlstateDom);
+                    BuildElement(dom, element, ((Pair)treeNode).First,  controlstateDom);
+                    BuildElement(dom, element, ((Pair)treeNode).Second,controlstateDom);
                 }
                 else if (type == typeof(ArrayList))
                 {
@@ -63,7 +63,7 @@ namespace Shared.ViewState
                     elem.AppendChild(element);
                     foreach (object treeNode1 in (ArrayList)treeNode)
                     {
-                        BuildElement(dom, element, treeNode1, ref controlstateDom);
+                        BuildElement(dom, element, treeNode1, controlstateDom);
                     }
                 }
                 else if (treeNode is Array)
@@ -72,7 +72,7 @@ namespace Shared.ViewState
                     elem.AppendChild(element);
                     foreach (object treeNode1 in (Array)treeNode)
                     {
-                        BuildElement(dom, element, treeNode1, ref controlstateDom);
+                        BuildElement(dom, element, treeNode1, controlstateDom);
                     }
                 }
                 else if (treeNode is HybridDictionary)
@@ -81,7 +81,7 @@ namespace Shared.ViewState
                     controlstateDom.DocumentElement.AppendChild(element);
                     foreach (object treeNode1 in (HybridDictionary)treeNode)
                     {
-                        BuildElement(controlstateDom, element, treeNode1, ref controlstateDom);
+                        BuildElement(controlstateDom, element, treeNode1, controlstateDom);
                     }
                 }
                 else if (treeNode is DictionaryEntry)
@@ -89,9 +89,9 @@ namespace Shared.ViewState
                     element = dom.CreateElement(GetShortTypename(treeNode));
                     elem.AppendChild(element);
                     DictionaryEntry entry = (DictionaryEntry)treeNode;
-                    BuildElement(dom, element, entry.Key, ref controlstateDom);
+                    BuildElement(dom, element, entry.Key, controlstateDom);
                     DictionaryEntry entry2 = (DictionaryEntry)treeNode;
-                    BuildElement(dom, element, entry2.Value, ref controlstateDom);
+                    BuildElement(dom, element, entry2.Value, controlstateDom);
                 }
                 else
                 {
@@ -115,7 +115,7 @@ namespace Shared.ViewState
             var controlstateDom = new XmlDocument();
             dom.AppendChild(dom.CreateElement("viewstate"));
             controlstateDom.AppendChild(controlstateDom.CreateElement("controlstate"));
-            BuildElement(dom, dom.DocumentElement, tree, ref controlstateDom);
+            BuildElement(dom, dom.DocumentElement, tree, controlstateDom);
             return new ViewStateInXml(dom, controlstateDom);
         }
 
