@@ -8,6 +8,8 @@
   <p>
     Markdown has become really popular due to it's use on popular programming sites such as stackoverflow and github.
   </p>
+  <p>Markdown is not <a href="http://daringfireball.net/projects/markdown/syntax#html">intended</a> as protection against script injection. 
+  It can be used as a replacement for BBCode though (by html encoding the text and then running it through markdown renderer).</p>
   <div class="row">
     <div class="col-md-4">
       <h2>Input</h2>
@@ -23,7 +25,7 @@
     </div>
     <div class="col-md-4">
       <h2>Rendered</h2>
-      @Html.Raw(new MarkdownSharp.Markdown().Transform(Html.Encode(ViewData["value"] ?? string.Empty)))
+      @Html.Raw(new MarkdownSharp.Markdown().Transform(Html.Encode(ViewData["value"] ?? string.Empty)
     </div>
   </div>
 </div>
