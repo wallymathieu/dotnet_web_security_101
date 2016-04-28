@@ -42,7 +42,7 @@ namespace Example.Viewstate
                 .Tap(l => l.Add(Text.Text))
                 .ToArray();
         }
-
+#if LOG_VIEWSTATE
         private string File() { return string.Format(@"C:\tmp\viewstate_{0}.txt", this.Page.GetType().FullName); }
         protected override void SavePageStateToPersistenceMedium(object state)
         {
@@ -55,5 +55,6 @@ namespace Example.Viewstate
             }
             base.SavePageStateToPersistenceMedium(state);
         }
+#endif
     }
 }

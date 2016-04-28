@@ -13,12 +13,18 @@
     <a href="http://aspalliance.com/articleViewer.aspx?aId=135&pId=">ViewState: All You Wanted to Know</a>
   </li>
   <li>
-    <a hhref="http://weblogs.asp.net/scottgu/435745">ScottGu: Cool ViewStateAnalyzer ASP.NET 2.0 Utility</a>
+    <a href="http://weblogs.asp.net/scottgu/435745">ScottGu: Cool ViewStateAnalyzer ASP.NET 2.0 Utility</a>
   </li>
-
 </ul>
+<p>
+  It looks like the viewstate sent to the browser is not simply base64 encoded? Take a look at what's sent to the browser on the page below in order to get a sample.
+  However, when looking at what's sent to 'SavePageStateToPersistenceMedium', then we see that the viewstate format looks the same. Note though that the role of viewstate has not changed.
+</p>
 <ul>
   <li>
     @Html.ActionLink("Decode", "Decode", "ViewState")
+  </li>
+  <li>
+    <a href="~/Pages/Viewstate/Index.aspx">Page that uses viewstate</a>
   </li>
 </ul>
