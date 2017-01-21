@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Text;
-using System.Web;
 
 namespace Shared.BbCode
 {
@@ -33,8 +34,8 @@ namespace Shared.BbCode
                                                                           "turkose", "lightblue", "blue",
                                                                           "darkblue", "purple", "pink",
                                                                           "grey", "silver", "white"
-                                                                        }).ConvertAll(
-          s => HttpUtility.HtmlEncode(s));
+                                                                        }).Select(
+          s => WebUtility.HtmlEncode(s)).ToList();
         private static readonly List<string> replaceList = new List<string>(new[]
                                                                               {
                                                                             "000000", "663300", "800000",

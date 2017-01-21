@@ -1,11 +1,11 @@
 ﻿using Example.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Example.Controllers
 {
     public class XSSController : Controller
     {
-        public ActionResult Index()
+        public IActionResult Index()
         {
             ViewData["examplecode"] = @"<%= item.Data %> 
 and in asp.net mvc: 
@@ -14,52 +14,52 @@ may be set on page or site level in classic asp.net using ValidateRequest";
             return View();
         }
 
-        public ActionResult CrossDomain()
+        public IActionResult CrossDomain()
         {
             return View();
         }
 
-        public ActionResult ShowEncoded()
-        {
-            ViewData.Model = Product.GetXSSUserProduct();
-            return View();
-        }
-
-        public ActionResult ShowUnEncoded()
+        public IActionResult ShowEncoded()
         {
             ViewData.Model = Product.GetXSSUserProduct();
             return View();
         }
 
-        public ActionResult BBCode()
+        public IActionResult ShowUnEncoded()
+        {
+            ViewData.Model = Product.GetXSSUserProduct();
+            return View();
+        }
+
+        public IActionResult BBCode()
         {
             ViewData["value"] = "Something [b]bold[/b] and [i]italic[/i] or maybe [color=blue]blue[/color]. And unescaped html:<div>content of div</div>";
             return View();
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult BBCode(UnEncodedPotentialHtml value)
+        [AcceptVerbs("POST")]
+        public IActionResult BBCode(string value)
         {
-            ViewData["value"] = value.Value;
+            ViewData["value"] = value;
 
             return View();
         }
 
 
-        public ActionResult Markdown()
+        public IActionResult Markdown()
         {
             ViewData["value"] = "";
             return View();
         }
 
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Markdown(UnEncodedPotentialHtml value)
+        [AcceptVerbs("POST")]
+        public IActionResult Markdown(string value)
         {
-            ViewData["value"] = value.Value;
+            ViewData["value"] = value;
 
             return View();
         }
-        public ActionResult Adsafe()
+        public IActionResult Adsafe()
         {
             return View();
         }

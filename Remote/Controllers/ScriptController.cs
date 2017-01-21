@@ -1,16 +1,16 @@
-﻿using System.Net.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Shared;
+using System.Net.Http;
 using System.Text;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace Remote.Controllers
 {
-    public class ScriptController : ApiController
+    public class ScriptController : Controller
     {
         public HttpResponseMessage Get(string text, string callback)
         {
-            var res = string.Format("{0} submitted from {1} with callback: {2}", text, HttpContext.Current.Request.UrlReferrer, callback);
+            var res = string.Format("{0} submitted from {1} with callback: {2}", text, Request.UrlReferrer(), callback);
             return new HttpResponseMessage()
             {
                 Content = new StringContent(callback + "({message:'" + res + "'});",
@@ -19,10 +19,10 @@ namespace Remote.Controllers
             };
         }
 
-        [EnableCors(origins: "http://localhost:8090", headers: "*", methods: "*")]
+        [EnableCors("Localhost")]
         public HttpResponseMessage Post([FromBody]string text)
         {
-            var res = string.Format("{0} submitted from {1}", text, HttpContext.Current.Request.UrlReferrer);
+            var res = string.Format("{0} submitted from {1}", text, Request.UrlReferrer());
             return new HttpResponseMessage()
             {
                 Content = new StringContent("{\"message\":\"" + res + "\"}",
