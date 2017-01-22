@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Example.Options;
 
 namespace Example
 {
@@ -29,6 +30,8 @@ namespace Example
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddSingleton(new ConnectionStrings(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

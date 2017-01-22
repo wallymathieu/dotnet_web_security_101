@@ -4,18 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace Example.Controllers
 {
     public class SQLInjectionController : Controller
     {
-#if false
         private readonly string _connectionstring;
-        public SQLInjectionController(IOptions<ConnectionStrings> connectionstring)
+        public SQLInjectionController(ConnectionStrings connectionstring)
         {
-            _connectionstring = connectionstring.Value.Default;
+            _connectionstring = connectionstring.Default;
         }
-#endif
         public IActionResult Index() { return View(); }
         public IActionResult ListDbTables()
         {
@@ -106,7 +105,7 @@ INSERT INTO [tblCompany]
         {
             ViewData["value"] = value;
             var values = new List<Product>();
-#if false
+
             using (var connection = new SqlConnection(_connectionstring))
             {
                 connection.Open();
@@ -140,9 +139,6 @@ INSERT INTO [tblCompany]
                 ViewData.Model = values;
                 return View("Search");
             }
-#else
-            throw new NotImplementedException();
-#endif
         }
     }
 }

@@ -8,27 +8,19 @@ namespace Remote.Controllers
 {
     public class ScriptController : Controller
     {
-        public HttpResponseMessage Get(string text, string callback)
+        [HttpGet("/script/")]
+        public IActionResult Get(string text, string callback)
         {
-            var res = string.Format("{0} submitted from {1} with callback: {2}", text, Request.UrlReferrer(), callback);
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent(callback + "({message:'" + res + "'});",
-                              Encoding.UTF8,
-                              "application/javascript")
-            };
+            var res = $"{text} submitted from {Request.UrlReferrer()} with callback: {callback}, origin: {Request.Origin()}";
+            return Content(callback + "({message:'" + res + "'});", "application/javascript", Encoding.UTF8);
         }
 
+        [HttpPost("/script/")]
         [EnableCors("Localhost")]
-        public HttpResponseMessage Post([FromBody]string text)
+        public IActionResult Post([FromBody]string text)
         {
-            var res = string.Format("{0} submitted from {1}", text, Request.UrlReferrer());
-            return new HttpResponseMessage()
-            {
-                Content = new StringContent("{\"message\":\"" + res + "\"}",
-                              Encoding.UTF8,
-                              "application/json")
-            };
+            var res = $"{text} submitted from {Request.UrlReferrer()}, origin: {Request.Origin()}";
+            return Json(new { message =res});
         }
     }
 }

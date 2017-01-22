@@ -13,5 +13,9 @@ namespace Shared
         {
             return request.Headers["Referer"].ToString();
         }
+        public static string Origin(this HttpRequest request)
+        {
+            return request.Headers["Origin"].ToString();
+        }
     }
 }
