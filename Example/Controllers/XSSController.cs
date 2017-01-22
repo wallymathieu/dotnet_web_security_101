@@ -7,10 +7,6 @@ namespace Example.Controllers
     {
         public IActionResult Index()
         {
-            ViewData["examplecode"] = @"<%= item.Data %> 
-and in asp.net mvc: 
-[ValidateInput(false)]
-may be set on page or site level in classic asp.net using ValidateRequest";
             return View();
         }
 
