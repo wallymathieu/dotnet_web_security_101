@@ -1,17 +1,22 @@
 ﻿using Example.Models;
+using Example.Options;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace Example.Controllers
 {
     public class SQLInjectionController : Controller
     {
-        public ActionResult Index() { return View(); }
-        public ActionResult ListDbTables()
+        private readonly string _connectionstring;
+        public SQLInjectionController(ConnectionStrings connectionstring)
+        {
+            _connectionstring = connectionstring.Default;
+        }
+        public IActionResult Index() { return View(); }
+        public IActionResult ListDbTables()
         {
             //Default
             ViewData["value"] = @"xxxx' 
@@ -24,12 +29,12 @@ t.TABLE_TYPE = 'BASE TABLE'--";
             ViewData.Model = new List<Product>();
             return View("Search");
         }
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult ListDbTables(string value)
+        [AcceptVerbs("POST")]
+        public IActionResult ListDbTables(string value)
         {
             return Search(value);
         }
-        public ActionResult ListCompanies()
+        public IActionResult ListCompanies()
         {
             //Default
             ViewData["value"] = @"xxxx' 
@@ -40,12 +45,12 @@ select CONVERT(NVARCHAR(MAX), CompanyID) [ProductName], CompanyName [Description
             ViewData.Model = new List<Product>();
             return View("Search");
         }
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult ListCompanies(string value)
+        [AcceptVerbs("POST")]
+        public IActionResult ListCompanies(string value)
         {
             return Search(value);
         }
-        public ActionResult InsertCompany()
+        public IActionResult InsertCompany()
         {
             //Default
             ViewData["value"] = @"xxxx' ;
@@ -57,13 +62,13 @@ INSERT INTO [tblCompany]
             ViewData.Model = new List<Product>();
             return View("Search");
         }
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult InsertCompany(string value)
+        [AcceptVerbs("POST")]
+        public IActionResult InsertCompany(string value)
         {
             return Search(value);
         }
 
-        public ActionResult DeleteCompany()
+        public IActionResult DeleteCompany()
         {
             //Default
             ViewData["value"] = @"xxxx' ;
@@ -74,13 +79,13 @@ INSERT INTO [tblCompany]
             ViewData.Model = new List<Product>();
             return View("Search");
         }
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult DeleteCompany(string value)
+        [AcceptVerbs("POST")]
+        public IActionResult DeleteCompany(string value)
         {
             return Search(value);
         }
 
-        public ActionResult HandleError()
+        public IActionResult HandleError()
         {
             //Default
             ViewData["value"] = @"xxxx' ;
@@ -89,18 +94,19 @@ INSERT INTO [tblCompany]
             ViewData.Model = new List<Product>();
             return View("Search");
         }
-        [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult HandleError(string value)
+        [AcceptVerbs("POST")]
+        public IActionResult HandleError(string value)
         {
             return Search(value);
         }
 
         [NonAction]
-        private ActionResult Search(string value)
+        private IActionResult Search(string value)
         {
             ViewData["value"] = value;
             var values = new List<Product>();
-            using (var connection = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["Default"].ConnectionString))
+
+            using (var connection = new SqlConnection(_connectionstring))
             {
                 connection.Open();
                 string cmdText = string.Format(@"SELECT

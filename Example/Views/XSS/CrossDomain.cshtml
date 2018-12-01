@@ -48,33 +48,31 @@
     $(function () {
       var get = $("#send_information_to_remote_service_via_get");
       get.find("button").click(function () {
-        $.getJSON("http://localhost:8091/api/Script/?text=" + get.find("[name='text']").val() + "&callback=?", function (data) {
+        $.getJSON("http://localhost:8091/Script/?text=" + get.find("[name='text']").val() + "&callback=?", function (data) {
           $("#response").text(data.message)
         });
       });
 
-      function success(data, textStatus, jqXHR) {
-        var r = $("#response");
-        r.text(JSON.stringify(data));
-        r.toggleClass("success", true);
-        r.toggleClass("error", false);
-      }
-      function error(jqXHR, textStatus, errorThrown) {
-        var r = $("#response");
-        r.text([textStatus, errorThrown].join("\n"));
-        r.toggleClass("error", true);
-        r.toggleClass("success", false);
-      }
       var post = $("#send_information_to_remote_service_via_cors");
       post.click(function () {
         var data =JSON.stringify( post.find("[name='text']").val());
         $.ajax({
           method: 'POST',
-          url: 'http://localhost:8091/api/Script',
+          url: 'http://localhost:8091/Script',
           data: data,
-          error: error,
+          error: function error(jqXHR, textStatus, errorThrown) {
+              var r = $("#response");
+              r.text([textStatus, errorThrown].join("\n"));
+              r.toggleClass("error", true);
+              r.toggleClass("success", false);
+          },
           contentType:'application/json',
-          success: success
+          success: function success(data, textStatus, jqXHR) {
+              var r = $("#response");
+              r.text(data.message);
+              r.toggleClass("success", true);
+              r.toggleClass("error", false);
+          }
         });
       });
 
