@@ -8,12 +8,14 @@ namespace Example.Controllers
     public class CrossSiteForgeryController : Controller
     {
 
-        public ActionResult Index()
+        [AcceptVerbs("GET")]
+        public IActionResult Index()
         {
             return View();
         }
 
-        public ActionResult UpdateWithAntiForgeryToken()
+        [AcceptVerbs("GET")]
+        public IActionResult UpdateWithAntiForgeryToken()
         {
             return View("Update");
         }
@@ -21,7 +23,7 @@ namespace Example.Controllers
 
         [AcceptVerbs("POST")]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateWithAntiForgeryToken(string text)
+        public IActionResult UpdateWithAntiForgeryToken(string text)
         {
             ViewData["message"] = string.Format("{0} submitted from UrlReferrer: {1}", text, Request.UrlReferrer());
             return View("Update");
@@ -29,14 +31,14 @@ namespace Example.Controllers
 
         [AcceptVerbs("POST")]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateWithAntiForgeryTokenAjax(string text)
+        public IActionResult UpdateWithAntiForgeryTokenAjax(string text)
         {
             ViewData["message"] = string.Format("{0} submitted from {1}", text, Request.UrlReferrer());
             return Content((string)ViewData["message"]);
         }
 
         //[AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult UpdateAjax(string text)
+        public IActionResult UpdateAjax(string text)
         {
             ViewData["message"] = string.Format("{0} submitted from {1}", text, Request.UrlReferrer());
             return Content((string)ViewData["message"]);

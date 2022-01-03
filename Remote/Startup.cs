@@ -11,8 +11,8 @@ namespace Remote
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             // Add framework services.
-            services.AddMvc(e => e.EnableEndpointRouting = false);
             services.AddCors(opt =>
                 opt.AddPolicy("Localhost",c=>c.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:8090"))
             );
@@ -32,12 +32,15 @@ namespace Remote
             }
 
             app.UseStaticFiles();
+            app.UseRouting();
 
-            app.UseMvc(routes =>
+            //app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

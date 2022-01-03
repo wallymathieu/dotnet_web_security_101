@@ -14,7 +14,7 @@ namespace Example
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc(config=>config.EnableEndpointRouting = false);
+            services.AddMvc();
 
             services.AddSingleton(c=> new ConnectionStrings(c.GetRequiredService<IConfiguration>().GetConnectionString("DefaultConnection")));
         }
@@ -34,11 +34,15 @@ namespace Example
 
             app.UseStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            //app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
