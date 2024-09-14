@@ -1,6 +1,6 @@
 # dotnet web security 101
 
-Web security lessons ported from web security I taught about 5 years ago
+Web security lessons ported from web security I taught around 2011. You should probably look into OWASP examples for more up to date examples.
 
 ## Starting out
 
